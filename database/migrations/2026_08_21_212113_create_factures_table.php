@@ -18,7 +18,7 @@ return new class extends Migration
             $table->enum('type', ['client', 'fournisseur']);
             $table->string('type_facturable'); // Client, Project, Supplier...
             $table->unsignedBigInteger('id_facturable');
-            $table->foreignId('projet_id')->nullable()->constrained('projets')->nullOnDelete();
+            $table->unsignedBigInteger('projet_id')->nullable();
             $table->date('date_facture');
             $table->date('date_echeance')->nullable();
             $table->decimal('montant_ht', 15, 2);

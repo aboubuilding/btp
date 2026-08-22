@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('phase_projets', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('projet_id')->constrained('projets')->cascadeOnDelete();
+            $table->unsignedBigInteger('projet_id')->nullable();
             $table->string('nom'); // Terrassement, Fondations, Gros oeuvre, Second oeuvre, Finitions...
             $table->unsignedInteger('ordre')->default(0);
             $table->date('date_debut')->nullable();

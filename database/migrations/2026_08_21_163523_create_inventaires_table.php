@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('inventaires', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('entrepot_id')->constrained('entrepots')->cascadeOnDelete();
+            $table->unsignedBigInteger('entrepot_id')->nullable();
             $table->date('date_inventaire');
-            $table->foreignId('effectue_par')->nullable()->constrained('employes')->nullOnDelete();
+            $table->unsignedBigInteger('effectue_par')->nullable();
             $table->enum('statut', ['en_cours', 'valide'])->default('en_cours');
 
             $table->integer('etat')->default(1);

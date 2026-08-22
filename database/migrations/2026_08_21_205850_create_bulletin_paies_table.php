@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('bulletin_paies', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('periode_paie_id')->constrained('periodes_paie')->cascadeOnDelete();
-            $table->foreignId('employe_id')->constrained('employes')->cascadeOnDelete();
+            $table->unsignedBigInteger('periode_paie_id')->nullable();
+            $table->unsignedBigInteger('employe_id')->nullable();
             $table->decimal('salaire_base', 12, 2);
             $table->decimal('jours_travailles', 5, 2)->default(0);
             $table->decimal('heures_travaillees', 6, 2)->default(0);

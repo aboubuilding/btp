@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('contrats', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('employe_id')->constrained('employes')->cascadeOnDelete();
+            $table->unsignedBigInteger('employe_id')->nullable();
             $table->string('numero_contrat')->unique();
             $table->enum('type', ['cdi', 'cdd', 'journalier', 'stage', 'prestataire']);
             $table->date('date_debut');

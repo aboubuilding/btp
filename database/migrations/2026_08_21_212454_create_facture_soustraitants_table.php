@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('facture_soustraitants', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('contrat_sous_traitant_id')->constrained('contrats_sous_traitants')->cascadeOnDelete();
+            $table->unsignedBigInteger('contrat_sous_traitant_id')->nullable();
             $table->string('numero_facture')->unique();
             $table->date('date_facture');
             $table->decimal('montant', 15, 2);

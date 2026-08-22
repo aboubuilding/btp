@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('depenses', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('projet_id')->nullable()->constrained('projets')->nullOnDelete();
+            $table->unsignedBigInteger('projet_id')->nullable();
             $table->string('categorie'); // carburant, materiaux, sous_traitance, frais_generaux...
             $table->string('description');
             $table->decimal('montant', 15, 2);

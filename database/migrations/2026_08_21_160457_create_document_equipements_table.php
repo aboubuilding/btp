@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('document_equipements', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('equipement_id')->constrained('equipements')->cascadeOnDelete();
+            $table->unsignedBigInteger('equipement_id')->nullable();
             $table->string('type'); // carte_grise, assurance, visite_technique
             $table->string('chemin_fichier');
             $table->date('date_emission')->nullable();

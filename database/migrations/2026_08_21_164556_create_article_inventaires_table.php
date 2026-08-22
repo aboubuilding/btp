@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('article_inventaires', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('inventaire_id')->constrained('inventaires')->cascadeOnDelete();
-            $table->foreignId('materiau_id')->constrained('materiaux')->cascadeOnDelete();
+            $table->unsignedBigInteger('inventaire_id')->nullable();
+            $table->unsignedBigInteger('materiau_id')->nullable();
             $table->decimal('quantite_theorique', 14, 3);
             $table->decimal('quantite_comptee', 14, 3);
             $table->decimal('ecart', 14, 3)->default(0);

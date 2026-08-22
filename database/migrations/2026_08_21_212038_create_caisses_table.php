@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
 
             $table->string('nom'); // Caisse siege, Caisse chantier X...
-            $table->foreignId('projet_id')->nullable()->constrained('projets')->nullOnDelete();
-            $table->foreignId('responsable_id')->nullable()->constrained('employes')->nullOnDelete();
+            $table->unsignedBigInteger('projet_id')->nullable();
+            $table->unsignedBigInteger('responsable_id')->nullable();
             $table->decimal('solde_actuel', 15, 2)->default(0);
             $table->integer('etat')->default(1);
 

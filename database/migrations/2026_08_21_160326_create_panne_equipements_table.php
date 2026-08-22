@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('panne_equipements', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('equipement_id')->constrained('equipements')->cascadeOnDelete();
-            $table->foreignId('projet_id')->nullable()->constrained('projets')->nullOnDelete();
-            $table->foreignId('signale_par')->nullable()->constrained('employes')->nullOnDelete();
+            $table->unsignedBigInteger('equipement_id')->nullable();
+            $table->unsignedBigInteger('projet_id')->nullable();
+            $table->unsignedBigInteger('signale_par')->nullable();
             $table->date('date_panne');
             $table->text('description');
             $table->date('date_reparation')->nullable();

@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('ligne_ecriture_comptables', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('ecriture_comptable_id')->constrained('ecritures_comptables')->cascadeOnDelete();
-            $table->foreignId('compte_id')->constrained('plan_comptable')->cascadeOnDelete();
+            $table->unsignedBigInteger('ecriture_comptable_id')->nullable();
+            $table->unsignedBigInteger('compte_id')->nullable();
             $table->decimal('debit', 15, 2)->default(0);
             $table->decimal('credit', 15, 2)->default(0);
             $table->string('description')->nullable();

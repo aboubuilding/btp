@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('affectation_equipements', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('equipement_id')->constrained('equipements')->cascadeOnDelete();
-            $table->foreignId('projet_id')->constrained('projets')->cascadeOnDelete();
-            $table->foreignId('affecte_par')->nullable()->constrained('users')->nullOnDelete();
+            $table->unsignedBigInteger('equipement_id')->nullable();
+            $table->unsignedBigInteger('projet_id')->nullable();
+            $table->unsignedBigInteger('affecte_par')->nullable();
             $table->date('date_debut');
             $table->date('date_fin')->nullable();
             $table->decimal('compteur_heures_debut', 12, 2)->nullable();

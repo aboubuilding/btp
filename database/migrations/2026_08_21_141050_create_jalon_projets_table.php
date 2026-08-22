@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('jalon_projets', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('projet_id')->constrained('projets')->cascadeOnDelete();
+            $table->unsignedBigInteger('projet_id')->nullable();
             $table->string('nom');
             $table->date('date_echeance');
             $table->date('date_atteinte')->nullable();

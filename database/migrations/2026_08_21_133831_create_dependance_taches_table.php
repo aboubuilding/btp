@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('dependance_taches', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('tache_id')->constrained('taches')->cascadeOnDelete();
-            $table->foreignId('depend_de_tache_id')->constrained('taches')->cascadeOnDelete();
+            $table->unsignedBigInteger('tache_id')->nullable();
+            $table->unsignedBigInteger('depend_de_tache_id')->nullable();
             $table->enum('type', ['fin_debut', 'debut_debut', 'fin_fin', 'debut_fin'])->default('fin_debut');
             $table->timestamps();
             $table->unique(['tache_id', 'depend_de_tache_id']);

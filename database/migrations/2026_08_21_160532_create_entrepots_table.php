@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('entrepots', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('projet_id')->nullable()->constrained('projets')->nullOnDelete(); // null = dépôt central
+            $table->unsignedBigInteger('projet_id')->nullable(); // null = dépôt central
             $table->string('nom');
             $table->string('emplacement')->nullable();
-            $table->foreignId('responsable_id')->nullable()->constrained('employes')->nullOnDelete();
+            $table->unsignedBigInteger('responsable_id')->nullable();
             $table->integer('etat')->default(1);
 
             $table->timestamps();

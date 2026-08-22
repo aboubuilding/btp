@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('materiaus', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('categorie_id')->nullable()->constrained('categories_materiaux')->nullOnDelete();
+            $table->unsignedBigInteger('categorie_id')->nullable();
             $table->string('code')->unique();
             $table->string('nom');
             $table->string('unite'); // sac, m3, kg, tonne, unite, ml...

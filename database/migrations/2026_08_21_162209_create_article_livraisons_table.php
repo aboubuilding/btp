@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('article_livraisons', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('livraison_id')->constrained('livraisons')->cascadeOnDelete();
-            $table->foreignId('materiau_id')->constrained('materiaux')->cascadeOnDelete();
+            $table->unsignedBigInteger('livraison_id')->nullable();
+            $table->unsignedBigInteger('materiau_id')->nullable();
             $table->decimal('quantite_commandee', 14, 3);
             $table->decimal('quantite_recue', 14, 3);
             $table->enum('condition', ['bon_etat', 'endommage', 'non_conforme'])->default('bon_etat');

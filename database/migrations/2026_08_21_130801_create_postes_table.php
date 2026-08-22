@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('postes', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('departement_id')->nullable()->constrained('departements')->nullOnDelete();
+            $table->unsignedBigInteger('departement_id')->nullable();
             $table->string('intitule'); // Conducteur de travaux, Chef de chantier, Maçon, Chauffeur engin, ...
 
             $table->integer('etat')->default(1);

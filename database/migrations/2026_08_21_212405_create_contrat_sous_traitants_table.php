@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('contrat_sous_traitants', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('sous_traitant_id')->constrained('sous_traitants')->cascadeOnDelete();
-            $table->foreignId('projet_id')->constrained('projets')->cascadeOnDelete();
+            $table->unsignedBigInteger('sous_traitant_id')->nullable();
+            $table->unsignedBigInteger('projet_id')->nullable();
             $table->string('numero_contrat')->unique();
             $table->text('description')->nullable();
             $table->decimal('montant', 15, 2);

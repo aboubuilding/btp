@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('maintenance_equipements', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('equipement_id')->constrained('equipements')->cascadeOnDelete();
+            $table->unsignedBigInteger('equipement_id')->nullable();
             $table->enum('type', ['preventive', 'corrective']);
             $table->string('description');
             $table->date('date');

@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
 
             $table->string('numero_commande')->unique();
-            $table->foreignId('fournisseur_id')->constrained('fournisseurs')->cascadeOnDelete();
-            $table->foreignId('demande_achat_id')->nullable()->constrained('demandes_achat')->nullOnDelete();
+            $table->unsignedBigInteger('fournisseur_id')->nullable();
+            $table->unsignedBigInteger('demande_achat_id')->nullable();
             $table->date('date_commande');
             $table->date('date_livraison_prevue')->nullable();
             $table->enum('statut', ['brouillon', 'envoyee', 'confirmee', 'livree_partiellement', 'livree', 'annulee'])->default('brouillon');

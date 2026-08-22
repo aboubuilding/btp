@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('avance_salaires', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('employe_id')->constrained('employes')->cascadeOnDelete();
+            $table->unsignedBigInteger('employe_id')->nullable();
             $table->decimal('montant', 12, 2);
             $table->date('date_demande');
-            $table->foreignId('approuve_par')->nullable()->constrained('users')->nullOnDelete();
+            $table->unsignedBigInteger('approuve_par')->nullable();
             $table->enum('statut', ['en_attente', 'approuve', 'refuse'])->default('en_attente');
             $table->enum('statut_remboursement', ['non_rembourse', 'partiel', 'solde'])->default('non_rembourse');
             $table->integer('etat')->default(1);

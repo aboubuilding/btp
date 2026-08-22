@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('releve_carburants', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('equipement_id')->constrained('equipements')->cascadeOnDelete();
-            $table->foreignId('projet_id')->nullable()->constrained('projets')->nullOnDelete();
+            $table->unsignedBigInteger('equipement_id')->nullable();
+            $table->unsignedBigInteger('projet_id')->nullable();
             $table->date('date');
             $table->decimal('quantite_litres', 10, 2);
             $table->decimal('prix_unitaire', 10, 2);

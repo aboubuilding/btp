@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('niveau_stocks', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('entrepot_id')->constrained('entrepots')->cascadeOnDelete();
-            $table->foreignId('materiau_id')->constrained('materiaux')->cascadeOnDelete();
+            $table->unsignedBigInteger('entrepot_id')->nullable();
+            $table->unsignedBigInteger('materiau_id')->nullable();
             $table->decimal('quantite', 14, 3)->default(0);
             $table->timestamps();
             $table->unique(['entrepot_id', 'materiau_id']);

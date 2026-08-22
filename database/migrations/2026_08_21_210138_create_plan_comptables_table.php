@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('code')->unique(); // plan comptable SYSCOHADA
             $table->string('nom');
             $table->enum('type', ['actif', 'passif', 'charge', 'produit', 'capitaux']);
-            $table->foreignId('parent_id')->nullable()->constrained('plan_comptable')->nullOnDelete();
+            $table->unsignedBigInteger('parent_id')->nullable();
             $table->integer('etat')->default(1);
 
             $table->timestamps();

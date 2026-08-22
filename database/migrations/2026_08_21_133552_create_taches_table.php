@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('taches', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('projet_id')->constrained('projets')->cascadeOnDelete();
-            $table->foreignId('phase_id')->nullable()->constrained('phases_projet')->nullOnDelete();
+            $table->unsignedBigInteger('projet_id')->nullable();
+            $table->unsignedBigInteger('phase_id')->nullable();
             $table->string('nom');
             $table->text('description')->nullable();
             $table->foreignId('assigne_a')->nullable()->constrained('employes')->nullOnDelete();

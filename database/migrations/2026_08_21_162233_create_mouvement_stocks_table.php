@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('mouvement_stocks', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('entrepot_id')->constrained('entrepots')->cascadeOnDelete();
-            $table->foreignId('materiau_id')->constrained('materiaux')->cascadeOnDelete();
+            $table->unsignedBigInteger('entrepot_id')->nullable();
+            $table->unsignedBigInteger('materiau_id')->nullable();
             $table->enum('type', ['entree', 'sortie', 'transfert', 'ajustement']);
             $table->decimal('quantite', 14, 3);
             $table->string('type_reference')->nullable(); // delivery, stock_transfer, task, ajustement_inventaire...

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('equipements', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('categorie_id')->nullable()->constrained('categories_equipements')->nullOnDelete();
+            $table->unsignedBigInteger('categorie_id')->nullable();
             $table->string('code')->unique();
             $table->string('nom');
             $table->string('marque')->nullable();
@@ -26,13 +26,11 @@ return new class extends Migration
             $table->decimal('valeur_actuelle', 15, 2)->nullable();
             $table->decimal('compteur_heures_actuel', 12, 2)->default(0);
             $table->enum('statut', ['disponible', 'en_service', 'en_panne', 'en_maintenance', 'hors_service'])->default('disponible');
-            $table->foreignId('projet_actuel_id')->nullable()->constrained('projets')->nullOnDelete();
+            $table->unsignedBigInteger('projet_actuel_id')->nullable();
             $table->integer('etat')->default(1);
 
             $table->timestamps();
 
-
-            $table->timestamps();
         });
     }
 

@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('document_projets', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('projet_id')->constrained('projets')->cascadeOnDelete();
+            $table->unsignedBigInteger('projet_id')->nullable();
             $table->string('nom');
             $table->string('type')->nullable(); // plan, permis, photo, rapport, contrat...
             $table->string('chemin_fichier');
-            $table->foreignId('telecharge_par')->nullable()->constrained('users')->nullOnDelete();
+            $table->unsignedBigInteger('telecharge_par')->nullable();
             $table->integer('etat')->default(1);
 
             $table->timestamps();

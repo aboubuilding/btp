@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
 
             $table->string('numero_demande')->unique();
-            $table->foreignId('projet_id')->nullable()->constrained('projets')->nullOnDelete();
-            $table->foreignId('demande_par')->constrained('employes')->cascadeOnDelete();
+            $table->unsignedBigInteger('projet_id')->nullable();
+            $table->unsignedBigInteger('demande_par')->nullable();
             $table->date('date_demande');
             $table->enum('statut', ['en_attente', 'validee', 'rejetee', 'commandee'])->default('en_attente');
             $table->text('notes')->nullable();

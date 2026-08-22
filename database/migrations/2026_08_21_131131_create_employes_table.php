@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('employes', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete(); // compte de connexion, optionnel pour ouvrier de chantier
+            $table->unsignedBigInteger('user_id')->nullable(); // compte de connexion, optionnel pour ouvrier de chantier
             $table->string('matricule')->unique();
             $table->string('prenom');
             $table->string('nom');
@@ -24,8 +24,8 @@ return new class extends Migration
             $table->string('numero_cnss')->nullable();
             $table->date('date_embauche');
             $table->date('date_fin')->nullable();
-            $table->foreignId('departement_id')->nullable()->constrained('departements')->nullOnDelete();
-            $table->foreignId('poste_id')->nullable()->constrained('postes')->nullOnDelete();
+            $table->unsignedBigInteger('departement_id')->nullable();
+            $table->unsignedBigInteger('poste_id')->nullable();
             $table->enum('type_contrat', ['cdi', 'cdd', 'journalier', 'stage', 'prestataire'])->default('cdi');
             $table->decimal('salaire_base', 12, 2)->default(0);
             $table->string('mode_paiement')->default('mensuel'); // mensuel, journalier, horaire

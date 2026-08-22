@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('evaluation_sous_traitants', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('sous_traitant_id')->constrained('sous_traitants')->cascadeOnDelete();
-            $table->foreignId('projet_id')->constrained('projets')->cascadeOnDelete();
-            $table->foreignId('evaluer_par')->nullable()->constrained('users')->nullOnDelete();
+            $table->unsignedBigInteger('sous_traitant_id')->nullable();
+            $table->unsignedBigInteger('projet_id')->nullable();
+            $table->unsignedBigInteger('evaluer_par')->nullable();
             $table->unsignedTinyInteger('note_qualite'); // /5
             $table->unsignedTinyInteger('note_delai'); // /5
             $table->unsignedTinyInteger('note_securite'); // /5

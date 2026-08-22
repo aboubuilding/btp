@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('livraisons', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('bon_commande_id')->constrained('bons_commande')->cascadeOnDelete();
-            $table->foreignId('entrepot_id')->constrained('entrepots')->cascadeOnDelete();
+            $table->unsignedBigInteger('bon_commande_id')->nullable();
+            $table->unsignedBigInteger('entrepot_id')->nullable();
             $table->date('date_livraison');
-            $table->foreignId('recue_par')->nullable()->constrained('employes')->nullOnDelete();
+            $table->unsignedBigInteger('recue_par')->nullable();
             $table->enum('statut', ['partielle', 'complete', 'refusee'])->default('complete');
             $table->text('notes')->nullable();
 

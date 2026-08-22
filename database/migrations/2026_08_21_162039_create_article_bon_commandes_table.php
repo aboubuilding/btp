@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('article_bon_commandes', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('bon_commande_id')->constrained('bons_commande')->cascadeOnDelete();
-            $table->foreignId('materiau_id')->constrained('materiaux')->cascadeOnDelete();
+            $table->unsignedBigInteger('bon_commande_id')->nullable();
+            $table->unsignedBigInteger('materiau_id')->nullable();
             $table->decimal('quantite', 14, 3);
             $table->decimal('prix_unitaire', 12, 2);
             $table->decimal('total', 14, 2);

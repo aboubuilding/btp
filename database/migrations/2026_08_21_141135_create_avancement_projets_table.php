@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('avancement_projets', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('projet_id')->constrained('projets')->cascadeOnDelete();
+            $table->unsignedBigInteger('projet_id')->nullable();
             $table->date('date_rapport');
-            $table->foreignId('rapporte_par')->constrained('employes')->cascadeOnDelete();
+            $table->unsignedBigInteger('rapporte_par')->nullable();
             $table->unsignedTinyInteger('pourcentage_avancement');
             $table->string('meteo')->nullable();
             $table->text('travaux_realises')->nullable();

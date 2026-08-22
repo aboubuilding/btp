@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('ecriture_comptables', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('exercice_fiscal_id')->constrained('exercices_fiscaux')->cascadeOnDelete();
+            $table->unsignedBigInteger('exercice_fiscal_id')->nullable();
             $table->string('numero_ecriture')->unique();
             $table->date('date_ecriture');
             $table->string('type_reference')->nullable(); // invoice, expense, payment, payslip...

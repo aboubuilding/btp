@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('equipe_projets', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('projet_id')->constrained('projets')->cascadeOnDelete();
-            $table->foreignId('employe_id')->constrained('employes')->cascadeOnDelete();
+            $table->unsignedBigInteger('projet_id')->nullable();
+            $table->unsignedBigInteger('employe_id')->nullable();
             $table->string('role_sur_chantier')->nullable(); // rôle spécifique sur ce chantier
             $table->date('affecte_le');
             $table->date('affecte_jusquau')->nullable();

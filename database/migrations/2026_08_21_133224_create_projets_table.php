@@ -16,13 +16,13 @@ return new class extends Migration
 
             $table->string('code')->unique();
             $table->string('nom');
-            $table->foreignId('client_id')->nullable()->constrained('clients')->nullOnDelete();
+            $table->unsignedBigInteger('client_id')->nullable();
             $table->string('adresse')->nullable();
             $table->string('ville')->nullable();
             $table->text('description')->nullable();
             $table->string('type')->nullable(); // batiment, route, ouvrage_art, terrassement, reseau...
-            $table->foreignId('conducteur_travaux_id')->nullable()->constrained('employes')->nullOnDelete();
-            $table->foreignId('chef_chantier_id')->nullable()->constrained('employes')->nullOnDelete();
+            $table->unsignedBigInteger('conducteur_travaux_id')->nullable();
+            $table->unsignedBigInteger('chef_chantier_id')->nullable();
             $table->date('date_debut_prevue')->nullable();
             $table->date('date_fin_prevue')->nullable();
             $table->date('date_debut_reelle')->nullable();

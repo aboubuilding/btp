@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('paiement_sous_traitants', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('facture_sous_traitant_id')->constrained('factures_sous_traitants')->cascadeOnDelete();
+            $table->unsignedBigInteger('facture_sous_traitant_id')->nullable();
             $table->decimal('montant', 15, 2);
             $table->date('date_paiement');
             $table->enum('mode', ['especes', 'cheque', 'virement', 'mobile_money']);

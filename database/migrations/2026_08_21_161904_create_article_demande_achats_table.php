@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('article_demande_achats', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('demande_achat_id')->constrained('demandes_achat')->cascadeOnDelete();
-            $table->foreignId('materiau_id')->constrained('materiaux')->cascadeOnDelete();
+            $table->unsignedBigInteger('demande_achat_id')->nullable();
+            $table->unsignedBigInteger('materiau_id')->nullable();
             $table->decimal('quantite_demandee', 14, 3);
             $table->text('notes')->nullable();
             $table->integer('etat')->default(1);

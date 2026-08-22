@@ -14,14 +14,14 @@ return new class extends Migration
         Schema::create('demande_conges', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('employe_id')->constrained('employes')->cascadeOnDelete();
-            $table->foreignId('type_conge_id')->constrained('types_conges')->cascadeOnDelete();
+            $table->unsignedBigInteger('employe_id')->nullable();
+            $table->unsignedBigInteger('type_conge_id')->nullable();
             $table->date('date_debut');
             $table->date('date_fin');
             $table->integer('nombre_jours');
             $table->text('motif')->nullable();
             $table->enum('statut', ['en_attente', 'approuve', 'refuse'])->default('en_attente');
-            $table->foreignId('approuve_par')->nullable()->constrained('users')->nullOnDelete();
+            $table->unsignedBigInteger('approuve_par')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamp('approuve_le')->nullable();
             $table->integer('etat')->default(1);
             $table->timestamps();

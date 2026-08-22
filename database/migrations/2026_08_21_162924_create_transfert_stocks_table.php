@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('transfert_stocks', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('entrepot_source_id')->constrained('entrepots')->cascadeOnDelete();
-            $table->foreignId('entrepot_destination_id')->constrained('entrepots')->cascadeOnDelete();
-            $table->foreignId('materiau_id')->constrained('materiaux')->cascadeOnDelete();
+            $table->unsignedBigInteger('entrepot_source_id')->nullable();
+            $table->unsignedBigInteger('entrepot_destination_id')->nullable();
+            $table->unsignedBigInteger('materiau_id')->nullable();
             $table->decimal('quantite', 14, 3);
             $table->foreignId('demande_par')->nullable()->constrained('employes')->nullOnDelete();
             $table->foreignId('approuve_par')->nullable()->constrained('employes')->nullOnDelete();

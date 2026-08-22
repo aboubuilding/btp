@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('document_employes', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('employe_id')->constrained('employes')->cascadeOnDelete();
+            $table->unsignedBigInteger('employe_id')->nullable();
             $table->string('type'); // CNI, diplome, permis, attestation CNSS...
             $table->string('chemin_fichier');
             $table->date('date_expiration')->nullable();

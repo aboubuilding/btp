@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('ligne_bulletin_paies', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('bulletin_paie_id')->constrained('bulletins_paie')->cascadeOnDelete();
+            $table->unsignedBigInteger('bulletin_paie_id')->nullable();
             $table->enum('type', ['prime', 'indemnite', 'retenue', 'avance']);
             $table->string('libelle'); // Prime de rendement, Indemnite transport, Avance sur salaire...
             $table->decimal('montant', 12, 2);
