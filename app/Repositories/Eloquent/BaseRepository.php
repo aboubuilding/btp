@@ -89,7 +89,7 @@ abstract class BaseRepository implements BaseRepositoryInterface
         return (bool) $record->delete();
     }
 
-    protected function activeQuery(): Builder
+    public function activeQuery(): Builder
     {
         return $this->model->where('etat', 1);
     }

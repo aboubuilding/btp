@@ -2,20 +2,14 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\Repositories\Interfaces\BaseRepositoryInterface;
-
-/**
- * Interface EcritureComptableRepositoryInterface
- *
- * @package App\Repositories\Interfaces
- */
 interface EcritureComptableRepositoryInterface extends BaseRepositoryInterface
 {
-    /**
-     * Ajoutez ici les méthodes spécifiques pour le modèle EcritureComptable
-     *
-     * Exemple :
-     * public function findByEmail(string $email): ?EcritureComptable;
-     * public function getActiveUsers(): Collection;
-     */
+    public function getEcrituresWithRelations(): array;
+    public function getEcrituresByExercice(int $exerciceId): array;
+    public function getEcrituresByStatut(string $statut): array;
+    public function getEcrituresByDateRange(string $start, string $end): array;
+    public function updateStatut(int $id, string $statut): bool;
+    public function search(string $keyword): array;
+    public function getStats(): array;
+    public function generateNumero(): string;
 }

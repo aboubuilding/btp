@@ -53,4 +53,14 @@ class Projet extends Model
     {
         return $this->belongsTo(Client::class);
     }
+
+    public function contratsSousTraitants()
+    {
+        return $this->hasMany(ContratSousTraitant::class);
+    }
+
+    public function getFullNameAttribute(): string
+    {
+        return $this->code . ' - ' . $this->nom;
+    }
 }

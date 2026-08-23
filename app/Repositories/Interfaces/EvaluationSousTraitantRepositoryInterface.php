@@ -2,20 +2,13 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\Repositories\Interfaces\BaseRepositoryInterface;
-
-/**
- * Interface EvaluationSousTraitantRepositoryInterface
- *
- * @package App\Repositories\Interfaces
- */
 interface EvaluationSousTraitantRepositoryInterface extends BaseRepositoryInterface
 {
-    /**
-     * Ajoutez ici les méthodes spécifiques pour le modèle EvaluationSousTraitant
-     *
-     * Exemple :
-     * public function findByEmail(string $email): ?EvaluationSousTraitant;
-     * public function getActiveUsers(): Collection;
-     */
+    public function getEvaluationsWithRelations(): array;
+    public function getEvaluationsBySoustraitant(int $soustraitantId): array;
+    public function getEvaluationsByProjet(int $projetId): array;
+    public function getLastEvaluations(int $limit = 10): array;
+    public function search(string $keyword): array;
+    public function getStats(): array;
+    public function getMoyennesBySoustraitant(int $soustraitantId): array;
 }

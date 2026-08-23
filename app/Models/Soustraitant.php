@@ -119,4 +119,38 @@ class Soustraitant extends Model
     {
         return $this->statut === 'blackliste';
     }
+
+    public function contrats()
+    {
+        return $this->hasMany(ContratSousTraitant::class);
+    }
+
+    public function getFullNameAttribute(): string
+    {
+        return $this->nom_entreprise . ($this->personne_contact ? ' (' . $this->personne_contact . ')' : '');
+    }
+
+    public function factures()
+    {
+        return $this->morphMany(FactureSoustraitant::class, 'facturable');
+    }
+
+    public function evaluations()
+    {
+        return $this->hasMany(EvaluationSousTraitant::class);
+    }
+
+    public function getNoteMoyenneGlobaleAttribute(): float
+    {
+        return $this->evaluations()->where('etat', 1)->avg('note_qualite') ?? 0;
+    }
+
+    public function getNombreEvaluationsAttribute(): int
+    {
+        return $this->evaluations()->where('etat', 1)->count();
+    }
+
+
+
+
 }
