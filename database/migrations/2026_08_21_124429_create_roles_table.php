@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
 
-            $table->id();
             $table->string('nom'); // Administrateur, Direction, Conducteur de travaux, Chef de chantier, Responsable achats, Comptable, RH
             $table->string('slug')->unique(); // admin, direction, conducteur_travaux, chef_chantier, responsable_achat, comptable, rh
             $table->string('description')->nullable();

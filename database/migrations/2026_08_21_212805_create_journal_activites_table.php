@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('journal_activites', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('utilisateur_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->string('action'); // created, updated, deleted, validated...
             $table->string('type_modele')->nullable();
             $table->unsignedBigInteger('id_modele')->nullable();

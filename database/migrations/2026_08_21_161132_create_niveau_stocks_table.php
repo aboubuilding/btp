@@ -17,7 +17,6 @@ return new class extends Migration
             $table->unsignedBigInteger('entrepot_id')->nullable();
             $table->unsignedBigInteger('materiau_id')->nullable();
             $table->decimal('quantite', 14, 3)->default(0);
-            $table->timestamps();
             $table->unique(['entrepot_id', 'materiau_id']);
             $table->integer('etat')->default(1);
 

@@ -20,8 +20,8 @@ return new class extends Migration
             $table->decimal('montant', 15, 2);
             $table->date('date_paiement');
             $table->enum('mode', ['especes', 'cheque', 'virement', 'mobile_money']);
-            $table->foreignId('compte_bancaire_id')->nullable()->constrained('comptes_bancaires')->nullOnDelete();
-            $table->foreignId('caisse_id')->nullable()->constrained('caisses')->nullOnDelete();
+            $table->unsignedBigInteger('compte_bancaire_id')->nullable();
+            $table->unsignedBigInteger('caisse_id')->nullable();
             $table->string('reference')->nullable();
             $table->integer('etat')->default(1);
             $table->timestamps();

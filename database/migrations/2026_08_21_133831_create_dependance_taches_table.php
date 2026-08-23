@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('tache_id')->nullable();
             $table->unsignedBigInteger('depend_de_tache_id')->nullable();
             $table->enum('type', ['fin_debut', 'debut_debut', 'fin_fin', 'debut_fin'])->default('fin_debut');
-            $table->timestamps();
+
             $table->unique(['tache_id', 'depend_de_tache_id']);
             $table->integer('etat')->default(1);
 
