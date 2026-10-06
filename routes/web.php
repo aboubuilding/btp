@@ -4,7 +4,9 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ContratSousTraitantController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EcritureComptableController;
 use App\Http\Controllers\EvaluationSousTraitantController;
+use App\Http\Controllers\ExerciceFiscalController;
 use App\Http\Controllers\FactureSousTraitantController;
 use App\Http\Controllers\PaiementSousTraitantController;
 use App\Http\Controllers\PlanComptableController;
@@ -138,6 +140,39 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{id}/lignes', [EcritureComptableController::class, 'getLignes'])->name('lignes');
         Route::get('/grand-livre', [EcritureComptableController::class, 'getGrandLivre'])->name('grand-livre');
         Route::get('/generate-numero', [EcritureComptableController::class, 'generateNumero'])->name('generate-numero');
+    });
+
+// Gestion des exerces fiscaux
+    Route::prefix('exercices-fiscaux')->name('exercices-fiscaux.')->group(function () {
+        Route::get('/', [ExerciceFiscalController::class, 'index'])->name('index');
+        Route::post('/', [ExerciceFiscalController::class, 'store'])->name('store');
+        Route::put('/{id}', [ExerciceFiscalController::class, 'update'])->name('update');
+        Route::delete('/{id}', [ExerciceFiscalController::class, 'destroy'])->name('destroy');
+        Route::post('/{id}/restore', [ExerciceFiscalController::class, 'restore'])->name('restore');
+        Route::post('/{id}/close', [ExerciceFiscalController::class, 'close'])->name('close');
+        Route::post('/{id}/open', [ExerciceFiscalController::class, 'open'])->name('open');
+        Route::get('/search', [ExerciceFiscalController::class, 'search'])->name('search');
+        Route::get('/current', [ExerciceFiscalController::class, 'getCurrent'])->name('current');
+        Route::get('/stats', [ExerciceFiscalController::class, 'getStats'])->name('stats');
+    });
+
+// Gestion des factures
+    Route::prefix('factures')->name('factures.')->group(function () {
+        Route::get('/', [FactureController::class, 'index'])->name('index');
+        Route::post('/', [FactureController::class, 'store'])->name('store');
+        Route::put('/{id}', [FactureController::class, 'update'])->name('update');
+        Route::delete('/{id}', [FactureController::class, 'destroy'])->name('destroy');
+        Route::post('/{id}/restore', [FactureController::class, 'restore'])->name('restore');
+        Route::post('/{id}/update-statut', [FactureController::class, 'updateStatut'])->name('update-statut');
+        Route::post('/{id}/marquer-payee', [FactureController::class, 'marquerPayee'])->name('marquer-payee');
+        Route::post('/{id}/annuler', [FactureController::class, 'annuler'])->name('annuler');
+        Route::post('/{id}/relancer', [FactureController::class, 'relancer'])->name('relancer');
+        Route::post('/{id}/envoyer', [FactureController::class, 'envoyer'])->name('envoyer');
+        Route::get('/search', [FactureController::class, 'search'])->name('search');
+        Route::get('/en-retard', [FactureController::class, 'getEnRetard'])->name('en-retard');
+        Route::get('/echeances-proches', [FactureController::class, 'getEcheancesProches'])->name('echeances-proches');
+        Route::get('/generate-numero', [FactureController::class, 'generateNumero'])->name('generate-numero');
+        Route::get('/tiers', [FactureController::class, 'getTiers'])->name('tiers');
     });
 
 
