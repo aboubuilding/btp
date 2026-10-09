@@ -1,83 +1,41 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use App\Services\AuthService;
-use App\Services\DashboardService;
-use Illuminate\Http\Request;
+use App\Domain\Execution\Repositories\ProjetRepositoryInterface;
+use App\Domain\Finances\Repositories\FactureRepositoryInterface;
+use App\Domain\Approvisionnement\Repositories\StockRepositoryInterface;
+use App\Domain\QHSE\Repositories\IncidentRepositoryInterface;
+use App\Domain\Execution\Models\Projet;
 
 class DashboardController extends Controller
 {
-    protected AuthService $authService;
-    protected DashboardService $dashboardService;
-
     public function __construct(
-        AuthService $authService,
-        DashboardService $dashboardService
-    ) {
-        $this->authService = $authService;
-        $this->dashboardService = $dashboardService;
-    }
+        private ProjetRepositoryInterface $projets,
+        private FactureRepositoryInterface $factures,
+        private StockRepositoryInterface $stock,
+        private IncidentRepositoryInterface $incidents,
+    ) {}
 
-    /**
-     * Afficher le tableau de bord
-     */
     public function index()
     {
-        $user = $this->authService->getUser();
-        $stats = $this->dashboardService->getAllStats();
+        $user = auth()->user();
 
-        return view('dashboard', [
-            'user' => $user,
-            'projetsStats' => $stats['projets'],
-            'budgetStats' => $stats['budget'],
-            'stockAlertes' => $stats['stock'],
-            'enginsStats' => $stats['equipements'],
-            'echeancesPaie' => $stats['paie'],
-            'facturesRetard' => $stats['factures'],
-            'recentProjects' => $stats['projets_recents'],
+        $query = Projet::with(['client', 'marche'])->where('statut', 'en_cours');
+        if ($user->hasRole('conducteur_travaux', 'chef_chantier')) {
+            $query->whereIn('id', $this->projets->pourUtilisateur($user->id)->pluck('id'));
+        }
+
+        $stats = array_merge(
+            $this->projets->statistiques(),
+            $this->factures->statistiques(),
+            $this->stock->statistiques(),
+            ['incidents_mois' => $this->incidents->statistiques()['mois'] ?? 0]
+        );
+
+        return view('dashboard.index', [
+            'stats'     => $stats,
+            'chantiers' => $query->limit(6)->get(),
+            'alertes'   => $this->stock->sousSeuil()->take(5),
         ]);
-    }
-
-    /**
-     * Récupérer les données pour les graphiques
-     */
-    public function getChartData(Request $request)
-    {
-        $type = $request->input('type', 'projets');
-
-        try {
-            $data = $this->dashboardService->getChartData($type);
-
-            return response()->json([
-                'success' => true,
-                'data' => $data
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Erreur lors du chargement des données'
-            ], 500);
-        }
-    }
-
-    /**
-     * Rafraîchir les données du dashboard
-     */
-    public function refresh()
-    {
-        try {
-            $stats = $this->dashboardService->refresh();
-
-            return response()->json([
-                'success' => true,
-                'data' => $stats
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Erreur lors du rafraîchissement'
-            ], 500);
-        }
     }
 }

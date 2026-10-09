@@ -11,22 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('role_id')->nullable();
-            $table->string('nom');
-            $table->string('email')->unique();
-            $table->string('telephone')->nullable();
-            $table->string('avatar')->nullable();
-            $table->timestamp('email_verifie_le')->nullable();
-            $table->string('mot_de_passe');
-            $table->boolean('est_actif')->default(true);
-            $table->timestamp('derniere_connexion_le')->nullable();
-            $table->rememberToken();
-
-            $table->integer('etat')->default(1);
-            $table->timestamps();
-        });
+        // users (améliorée – cf. section 7.2)
+Schema::create('users', function (Blueprint $table) {
+    $table->id();
+    $table->foreignId('role_id')->nullable()->constrained('roles')->nullOnDelete();
+    $table->string('nom');
+    $table->string('email')->unique();
+    $table->string('telephone')->nullable();
+    $table->string('avatar')->nullable();
+    $table->timestamp('email_verifie_le')->nullable();
+    $table->string('mot_de_passe');
+    $table->boolean('est_actif')->default(true)->index();
+    $table->timestamp('derniere_connexion_le')->nullable();
+    $table->string('derniere_connexion_ip', 45)->nullable();
+    $table->rememberToken();
+    $table->integer('etat')->default(1);
+    $table->timestamps();
+});
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();

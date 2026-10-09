@@ -1,106 +1,47 @@
 <?php
-
-use App\Http\Middleware\Authenticate;
 use Illuminate\Foundation\Application;
-use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use Illuminate\Http\Request;
+use Illuminate\Foundation\Configuration\Exceptions;
+use Illuminate\Auth\Middleware\Authenticate;
+use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 
 return Application::configure(basePath: dirname(__DIR__))
-    // ============================================
-    // CONFIGURATION DES ROUTES
-    // ============================================
     ->withRouting(
-        web: __DIR__ . '/../routes/web.php',
+        web:      __DIR__ . '/../routes/web.php',
+        api:      __DIR__ . '/../routes/api.php',
         commands: __DIR__ . '/../routes/console.php',
-        health: '/up',
+        health:   '/up',
     )
+    ->withMiddleware(function (Middleware $middleware) {
+        // Middleware global
+        $middleware->append(\App\Http\Middleware\VerifierActivation::class);
 
-    // ============================================
-    // CONFIGURATION DES MIDDLEWARES
-    // ============================================
-    ->withMiddleware(function (Middleware $middleware): void {
-
-        // ---- 1. ALIAS DES MIDDLEWARES ----
+        // Alias
         $middleware->alias([
-            'auth' => Authenticate::class,
+            'role'             => \App\Http\Middleware\VerifierRole::class,
+            'verifie'          => \App\Http\Middleware\VerifierActivation::class,
+            'filter.chantier'  => \App\Http\Middleware\FiltrerParChantier::class,
+            'verified.optional'=> \App\Http\Middleware\OptionalEmailVerification::class,
+            'admin'            => \App\Http\Middleware\VerifierRole::class . ':admin',
         ]);
 
-        // ---- 2. REDIRECTIONS ----
-        $middleware->redirectGuestsTo(fn () => route('login'));
-
-        // ---- 3. MIDDLEWARES DU GROUPE WEB ----
-        // Laravel 12 gère automatiquement les middlewares web par défaut
-        // On ajoute seulement nos middlewares personnalisés
-        $middleware->web(append: [
-            // Ajouter ici vos middlewares personnalisés pour le groupe web
-        ]);
-
-        // ---- 4. MIDDLEWARES DU GROUPE API ----
-        $middleware->api(prepend: [
-            \Illuminate\Routing\Middleware\ThrottleRequests::class . ':api',
-        ]);
-
-        // ---- 5. PRIORITE DES MIDDLEWARES ----
-        $middleware->priority([
-            \Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests::class,
-            \Illuminate\Cookie\Middleware\EncryptCookies::class,
-            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-            \Illuminate\Session\Middleware\StartSession::class,
-            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            \Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class,
-            \Illuminate\Routing\Middleware\ThrottleRequests::class,
-            \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            \App\Http\Middleware\Authenticate::class,
+        // Groupes
+        $middleware->group('admin', [
+            'auth',
+            \App\Http\Middleware\VerifierRole::class . ':admin',
         ]);
     })
-
-    // ============================================
-    // CONFIGURATION DES EXCEPTIONS
-    // ============================================
-    ->withExceptions(function (Exceptions $exceptions): void {
-
-        // ---- 1. GESTION DES ERREURS API ----
-        $exceptions->render(function (Throwable $e, Request $request) {
+    ->withExceptions(function (Exceptions $exceptions) {
+        // Gestion personnalisée des exceptions
+        $exceptions->render(function (\App\Domain\Socle\Exceptions\RegleGestionException $e, $request) {
             if ($request->expectsJson()) {
-                $status = method_exists($e, 'getStatusCode') ? $e->getStatusCode() : 500;
-
                 return response()->json([
                     'success' => false,
                     'message' => $e->getMessage(),
-                    'code' => $status,
-                ], $status);
+                ], 422);
             }
-
-            // Personnaliser l'erreur 404
-            if ($e instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException) {
-                return response()->view('errors.404', [], 404);
-            }
-
-            // Personnaliser l'erreur 403
-            if ($e instanceof \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException) {
-                return response()->view('errors.403', [], 403);
-            }
-
-            return null;
+            return back()->with('error', $e->getMessage())->withInput();
         });
-
-        // ---- 2. EXCEPTIONS A NE PAS RAPPORTER ----
-        $exceptions->dontReport([
-            \Illuminate\Auth\AuthenticationException::class,
-            \Illuminate\Auth\Access\AuthorizationException::class,
-            \Symfony\Component\HttpKernel\Exception\HttpException::class,
-            \Illuminate\Database\Eloquent\ModelNotFoundException::class,
-            \Illuminate\Session\TokenMismatchException::class,
-            \Illuminate\Validation\ValidationException::class,
-        ]);
-
-        // ---- 3. CHAMPS A NE PAS FLASHER ----
-        $exceptions->dontFlash([
-            'current_password',
-            'password',
-            'password_confirmation',
-        ]);
     })
-
     ->create();
